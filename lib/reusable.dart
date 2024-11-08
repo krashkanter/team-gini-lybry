@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sahyadri_hacknight/screens/Reader.dart';
 import 'package:http/http.dart' as http;
+import 'package:audioplayers/audioplayers.dart';
 
 toColor(String hexColor) {
   hexColor = hexColor.toUpperCase().replaceAll("#", "");
@@ -159,4 +160,15 @@ Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
 String removeSpecialCharacters(String input) {
   final RegExp alphanumericRegex = RegExp(r'[^a-zA-Z0-9]');
   return input.replaceAll(alphanumericRegex, '');
+}
+
+Future<void> playAudio(String url) async {
+  final player = AudioPlayer();
+  player.setReleaseMode(ReleaseMode.stop);
+
+  // Start the player as soon as the app is displayed.
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    await player.setSource(UrlSource(url));
+    await player.resume();
+  });
 }

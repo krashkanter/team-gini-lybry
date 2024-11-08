@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../reusable.dart';
 
@@ -31,8 +32,8 @@ class _ReaderState extends State<Reader> {
     words = widget.data.split(' ');
     _audio = "";
     _definition = "";
-    _transcription = "";
-    _word = "";
+    _transcription = "Click a Word For its Definition";
+    _word = "Click";
   }
 
   void nextPage() {
@@ -60,50 +61,120 @@ class _ReaderState extends State<Reader> {
     return Scaffold(
       backgroundColor: bgC,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
+        ),
+        iconTheme: IconThemeData(
+          size: 30,
+        ),
         toolbarHeight: 100,
         backgroundColor: bgC,
       ),
       body: Stack(children: [
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: StoryContainer(
-                  words: displayedWords,
-                  onWordTap: (word) async {
-                    List<Map<String, String>> wordDetails =
-                        await fetchWordDefinition(word);
+        Container(
+          height: MediaQuery.sizeOf(context).height - 320,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: StoryContainer(
+                    words: displayedWords,
+                    onWordTap: (word) async {
+                      List<Map<String, String>> wordDetails =
+                          await fetchWordDefinition(word);
 
-                    if (wordDetails.isNotEmpty) {
-                      setState(() {
-                        _word = word;
-                        _definition = wordDetails[0]['definition']!;
-                        _transcription = wordDetails[0]['phonetic']!;
-                        _audio = wordDetails[0]['audio']!;
-                      });
-                    } else {
-                      print('No details found.');
-                    }
-                  },
-                  textSize: _sliderValue,
+                      if (wordDetails.isNotEmpty) {
+                        setState(() {
+                          _word = word;
+                          _definition = wordDetails[0]['definition']!;
+                          _transcription = wordDetails[0]['phonetic']!;
+                          _audio = wordDetails[0]['audio']!;
+                        });
+                      } else {
+                        print('No details found.');
+                      }
+                    },
+                    textSize: _sliderValue,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFF333A3F), width: 5),
-                      color: bgC, // Replace with your bgC variable
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                Stack(children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                     child: Container(
-                      child: Text("$_word"),
-                    )),
-              )
-            ],
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Color(0xFF333A3F), width: 5),
+                          color: bgC, // Replace with your bgC variable
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 100,
+                                    child: Text(
+                                      removeSpecialCharacters(_word),
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w900,
+                                          color: textC),
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 100,
+                                    child: Text(
+                                      _transcription,
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                          color: textC),
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 100,
+                                    child: Text(
+                                      _definition,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                          color: textC),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment(1, 0),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 32, 40, 0),
+                      child: IconButton(
+                          onPressed: () {
+                            playAudio(_audio);
+                          },
+                          icon: Icon(
+                            Icons.volume_up_rounded,
+                            color: textC,
+                            size: 30,
+                          )),
+                    ),
+                  )
+                ])
+              ],
+            ),
           ),
         ),
         Padding(
