@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sahyadri_hacknight/screens/Library.dart';
 import 'package:sahyadri_hacknight/screens/MainPage.dart';
 import 'firebase_options.dart';
 
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       home: Mainpage(),
       title: 'LyBry',
       theme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: true,
         fontFamily: GoogleFonts.varelaRound().fontFamily,
         primarySwatch: Colors.red,
       ),

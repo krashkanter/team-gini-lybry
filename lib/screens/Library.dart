@@ -80,8 +80,7 @@ class _LibraryState extends State<Library> {
                 child: Column(
                   children: books.map((book) {
                     // Use null-aware operators to handle potential null values
-                    final link = book['link'] ??
-                        'https://www.shutterstock.com/shutterstock/photos/2275148213/display_1500/stock-vector-naive-playful-abstract-shapes-sticker-pack-groovy-circle-oval-rectangle-arch-eyes-typography-in-2275148213.jpg'; // Default to empty string if null
+                    final link = book['link'];
                     final title = book['title'] ??
                         'Untitled'; // Default to 'Untitled' if null
                     return Book(context, link, title, book['text']);
