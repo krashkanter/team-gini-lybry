@@ -8,6 +8,9 @@ toColor(String hexColor) {
   return Color(int.parse(hexColor, radix: 16));
 }
 
+Color bgC = toColor("F5F5F3");
+Color textC = toColor("333A3F");
+
 Image logoWidget(String imageName, double x, double y) {
   return Image.asset(
     imageName,

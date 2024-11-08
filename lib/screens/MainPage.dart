@@ -14,33 +14,51 @@ class _MainpageState extends State<Mainpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: toColor("fff6e5"),
+      backgroundColor: bgC,
       body: Stack(
         children: [
           Align(
-              alignment: const Alignment(0, -0.5),
+              alignment: const Alignment(0, -0.6),
               child: logoWidget("assets/LyBry-Transparent.png", 300, 300)),
-          const Align(
-              alignment: Alignment(0, -0.05),
-              child: Text(
-                "LyBry",
-              )),
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            child: Align(
+                alignment: const Alignment(0, -0.05),
+                child: Text(
+                  "LyBry",
+                  style: TextStyle(
+                      fontSize: 40, fontWeight: FontWeight.w900, color: textC),
+                )),
+          ),
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            child: Align(
+                alignment: const Alignment(0, 0.05),
+                child: Text(
+                  "Reading For Everyone",
+                  style: TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.w500, color: textC),
+                )),
+          ),
           Align(
-            alignment: Alignment(0, 1),
+            alignment: Alignment(0, 0.7),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => const Library()));
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  padding: EdgeInsets.zero,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: toColor("56C0A1"),
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(200),
-                        topRight: Radius.circular(200)), // Rounded corners
-                  ),
-                  width: 300,
-                  height: 300,
+                      border: Border.all(color: toColor("333A3F"), width: 5),
+                      color: toColor("56C0A1"),
+                      borderRadius: BorderRadius.circular(1000)),
+                  width: 200,
+                  height: 200,
                 )),
           )
         ],
