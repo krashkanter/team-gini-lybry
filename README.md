@@ -36,10 +36,3 @@ Open a Pull Request
 
 ## License ??
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-
-
-
-9. Wear Casuals with Green ID Cards
-10. Get Extra extension boards
-11. LUNCH WILL BE ON VRUDDITH (SANMATHI)
