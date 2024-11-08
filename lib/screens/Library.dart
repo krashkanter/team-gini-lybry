@@ -21,14 +21,25 @@ class _LibraryState extends State<Library> {
               alignment: const Alignment(0, -1),
               child: SizedBox(
                 width: MediaQuery.sizeOf(context).width,
-                height: 100,
+                height: 120,
                 child: const Align(
                     alignment: Alignment(-1, 1),
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Text("Books"),
+                      child: Text(
+                        "Books",
+                        style: TextStyle(
+                            fontSize: 50, fontWeight: FontWeight.w900),
+                      ),
                     )),
-              ))
+              )),
+          Align(
+            alignment: Alignment(0, 1),
+            child: Container(
+              color: textC,
+              height: MediaQuery.sizeOf(context).height - 120,
+            ),
+          )
         ],
       ),
     );

@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       title: 'LyBry',
       theme: ThemeData(
         useMaterial3: false,
-        fontFamily: GoogleFonts.lexend().fontFamily,
+        fontFamily: GoogleFonts.varelaRound().fontFamily,
         primarySwatch: Colors.red,
       ),
     );

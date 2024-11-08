@@ -37,7 +37,7 @@ class _MainpageState extends State<Mainpage> {
                 child: Text(
                   "Reading For Everyone",
                   style: TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.w500, color: textC),
+                      fontSize: 20, fontWeight: FontWeight.w500, color: textC),
                 )),
           ),
           Align(
