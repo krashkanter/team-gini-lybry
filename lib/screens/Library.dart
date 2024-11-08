@@ -94,6 +94,7 @@ class _LibraryState extends State<Library> {
               color: Colors.transparent,
               height: MediaQuery.sizeOf(context).height - 130,
               child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   children: books.map((book) {
                     // Use null-aware operators to handle potential null values
