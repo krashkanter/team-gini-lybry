@@ -172,3 +172,23 @@ Future<void> playAudio(String url) async {
     await player.resume();
   });
 }
+
+Widget reusableTextField(String text, TextEditingController controller) {
+  return TextField(
+    controller: controller,
+    cursorColor: textC,
+    cursorWidth: 2,
+    cursorHeight: 20,
+    style: TextStyle(color: textC, fontSize: 24, fontWeight: FontWeight.w900),
+    maxLines: null,
+    decoration: InputDecoration(
+      labelText: text,
+      labelStyle:
+          TextStyle(color: textC, fontWeight: FontWeight.bold, fontSize: 20),
+      filled: false,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+    ),
+    keyboardType:
+        TextInputType.multiline, // Change to multiline for non-password fields
+  );
+}

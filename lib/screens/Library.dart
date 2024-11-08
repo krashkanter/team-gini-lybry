@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:sahyadri_hacknight/reusable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sahyadri_hacknight/screens/ask.dart';
 
 class Library extends StatefulWidget {
   const Library({super.key});
@@ -45,6 +46,22 @@ class _LibraryState extends State<Library> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        width: 70.0, // Set your desired width
+        height: 70.0, // Set your desired height
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const Ask()));
+          },
+          shape: const CircleBorder(),
+          backgroundColor: toColor("56C0A1"),
+          child: const Icon(
+            Icons.note,
+            size: 30, // Increase the icon size if needed
+          ),
+        ),
+      ),
       backgroundColor: bgC,
       body: Stack(
         children: [
