@@ -17,7 +17,11 @@ class _ReaderState extends State<Reader> {
   late List<String> words;
   int currentIndex = 0;
   double _sliderValue = 20;
-  static const int wordsPerPage = 20; // Number of words to display at a time
+  static const int wordsPerPage = 20;
+  String _word = "";
+  String _definition = "";
+  String _audio = "";
+  String _transcription = "";
 
   @override
   void initState() {
@@ -25,6 +29,10 @@ class _ReaderState extends State<Reader> {
     // Split the string into words
     _sliderValue = 20;
     words = widget.data.split(' ');
+    _audio = "";
+    _definition = "";
+    _transcription = "";
+    _word = "";
   }
 
   void nextPage() {
@@ -64,8 +72,20 @@ class _ReaderState extends State<Reader> {
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: StoryContainer(
                   words: displayedWords,
-                  onWordTap: (word) {
-                    print(word);
+                  onWordTap: (word) async {
+                    List<Map<String, String>> wordDetails =
+                        await fetchWordDefinition(word);
+
+                    if (wordDetails.isNotEmpty) {
+                      setState(() {
+                        _word = word;
+                        _definition = wordDetails[0]['definition']!;
+                        _transcription = wordDetails[0]['phonetic']!;
+                        _audio = wordDetails[0]['audio']!;
+                      });
+                    } else {
+                      print('No details found.');
+                    }
                   },
                   textSize: _sliderValue,
                 ),
@@ -80,7 +100,7 @@ class _ReaderState extends State<Reader> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Container(
-                      height: 90,
+                      child: Text("$_word"),
                     )),
               )
             ],

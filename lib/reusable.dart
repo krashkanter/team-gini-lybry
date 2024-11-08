@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sahyadri_hacknight/screens/Reader.dart';
+import 'package:http/http.dart' as http;
 
 toColor(String hexColor) {
   hexColor = hexColor.toUpperCase().replaceAll("#", "");
@@ -86,4 +89,74 @@ Future<void> getDataFromFirestore(String collectionName) async {
   } catch (e) {
     print("Error getting documents: $e");
   }
+}
+
+Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
+  word = removeSpecialCharacters(word);
+  final url = 'https://api.dictionaryapi.dev/api/v2/entries/en/$word';
+
+  List<Map<String, String>> wordDetails = [];
+
+  try {
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      // Parse the JSON response
+
+      List<dynamic> wordDefinition = jsonDecode(response.body);
+
+      // Extract details from the response
+
+      String word = wordDefinition[0]['word'];
+
+      // Extract phonetics
+
+      List<dynamic> phoneticsList = wordDefinition[0]['phonetics'];
+
+      String phoneticTranscription =
+          phoneticsList.isNotEmpty ? phoneticsList[0]['text'] ?? '' : '';
+
+      // Extract audio links
+
+      List<String> audioLinks = phoneticsList
+          .map((phonetic) => phonetic['audio'] as String)
+          .where((audio) => audio.isNotEmpty)
+          .toList();
+
+      // Extract definitions
+
+      List<dynamic> meanings = wordDefinition[0]['meanings'];
+
+      String definition = '';
+
+      if (meanings.isNotEmpty) {
+        definition = meanings[0]['definitions'][0]['definition'] ?? '';
+      }
+
+      // Store the results
+
+      wordDetails.add({
+        'definition': definition,
+
+        'phonetic': phoneticTranscription,
+
+        'audio': audioLinks.isNotEmpty
+            ? audioLinks[0]
+            : '', // You can choose to return all audio links if needed
+      });
+
+      return wordDetails; // Return the list of details
+    } else {
+      throw Exception('Failed to load definition');
+    }
+  } catch (e) {
+    print('Error: $e');
+
+    return []; // Return an empty list on error
+  }
+}
+
+String removeSpecialCharacters(String input) {
+  final RegExp alphanumericRegex = RegExp(r'[^a-zA-Z0-9]');
+  return input.replaceAll(alphanumericRegex, '');
 }
