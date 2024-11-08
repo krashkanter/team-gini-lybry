@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1053827720703",
+    "project_id": "hacknight-gini",
+    "storage_bucket": "hacknight-gini.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053827720703:android:4d3890bed78d8cd70af3ca",
+        "android_client_info": {
+          "package_name": "com.gini.sahyadri_hacknight"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCuAV4F5bP9NaXqgPTlSkjPGuX9gpVPA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -12,12 +12,12 @@ android {
     ndkVersion = "27.1.12297006" //flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_21
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
@@ -25,10 +25,10 @@ android {
         applicationId = "com.gini.sahyadri_hacknight"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 27 //flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdk 27 //flutter.minSdkVersion
+        targetSdk flutter.targetSdkVersion
+        versionCode flutter.versionCode
+        versionName flutter.versionName
     }
 
     buildTypes {
@@ -39,13 +39,15 @@ android {
         }
     }
 
+
+    flutter {
+        source = "../.."
+    }
+
+
     dependencies {
         implementation platform('com.google.firebase:firebase-bom:33.5.1')
         implementation 'com.google.firebase:firebase-analytics'
         implementation 'androidx.multidex:multidex:2.0.1'
     }
-}
-
-flutter {
-    source = "../.."
 }
