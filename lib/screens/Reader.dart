@@ -16,12 +16,14 @@ class Reader extends StatefulWidget {
 class _ReaderState extends State<Reader> {
   late List<String> words;
   int currentIndex = 0;
+  double _sliderValue = 20;
   static const int wordsPerPage = 20; // Number of words to display at a time
 
   @override
   void initState() {
     super.initState();
     // Split the string into words
+    _sliderValue = 20;
     words = widget.data.split(' ');
   }
 
@@ -65,31 +67,14 @@ class _ReaderState extends State<Reader> {
                   onWordTap: (word) {
                     print(word);
                   },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: currentIndex > 0 ? previousPage : null,
-                      child: Text('Previous'),
-                    ),
-                    ElevatedButton(
-                      onPressed: currentIndex + wordsPerPage < words.length
-                          ? nextPage
-                          : null,
-                      child: Text('Next'),
-                    ),
-                  ],
+                  textSize: _sliderValue,
                 ),
               ),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
           child: Align(
             alignment: Alignment(-1, 1),
             child: GestureDetector(
@@ -101,8 +86,8 @@ class _ReaderState extends State<Reader> {
                     border: Border.all(color: toColor("333A3F"), width: 5),
                     color: toColor("56C0A1"),
                     borderRadius: BorderRadius.circular(1000)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.arrow_back_rounded,
                     size: 40,
@@ -113,7 +98,7 @@ class _ReaderState extends State<Reader> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
           child: Align(
             alignment: Alignment(1, 1),
             child: GestureDetector(
@@ -124,12 +109,59 @@ class _ReaderState extends State<Reader> {
                     border: Border.all(color: toColor("333A3F"), width: 5),
                     color: toColor("56C0A1"),
                     borderRadius: BorderRadius.circular(1000)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.arrow_forward_rounded,
                     size: 40,
                   ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
+          child: Align(
+            alignment: Alignment(0, 1),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: toColor("333A3F"), width: 5),
+                  color: toColor("56C0A1"),
+                  borderRadius: BorderRadius.circular(1000)),
+              child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "${((currentIndex - 1) / 20).ceil() + 1}",
+                    style: TextStyle(fontSize: 28),
+                  )),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment(0, 1),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: toColor("333A3F"), width: 5),
+                  color: toColor("56C0A1"),
+                  borderRadius: BorderRadius.circular(1000)),
+              height: 70,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: Slider(
+                  activeColor: textC,
+                  value: _sliderValue,
+                  min: 15,
+                  max: 30,
+                  divisions: 15,
+                  label: _sliderValue.round().toString(),
+                  onChanged: (double newValue) {
+                    setState(() {
+                      _sliderValue = newValue;
+                    });
+                  },
                 ),
               ),
             ),
@@ -143,8 +175,12 @@ class _ReaderState extends State<Reader> {
 class StoryContainer extends StatelessWidget {
   final List<String> words;
   final ValueChanged<String> onWordTap;
+  final double textSize; // Add this line
 
-  StoryContainer({required this.words, required this.onWordTap});
+  StoryContainer(
+      {required this.words,
+      required this.onWordTap,
+      required this.textSize}); // Update constructor
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +210,7 @@ class StoryContainer extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                     child: Text(
                       word,
-                      style: TextStyle(fontSize: 28),
+                      style: TextStyle(fontSize: textSize), // Use textSize here
                     ),
                   ),
                 ),
