@@ -70,6 +70,19 @@ class _ReaderState extends State<Reader> {
                   textSize: _sliderValue,
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xFF333A3F), width: 5),
+                      color: bgC, // Replace with your bgC variable
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Container(
+                      height: 90,
+                    )),
+              )
             ],
           ),
         ),
