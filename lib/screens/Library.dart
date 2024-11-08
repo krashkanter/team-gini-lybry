@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:sahyadri_hacknight/reusable.dart';
@@ -39,14 +40,16 @@ class _LibraryState extends State<Library> {
         books = fetchedBooks;
       });
     } catch (e) {
-      print("Error getting documents: $e");
+      if (kDebugMode) {
+        print("Error getting documents: $e");
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
+      floatingActionButton: SizedBox(
         width: 70.0, // Set your desired width
         height: 70.0, // Set your desired height
         child: FloatingActionButton(
@@ -89,12 +92,12 @@ class _LibraryState extends State<Library> {
             ),
           ),
           Align(
-            alignment: Alignment(0, 1),
+            alignment: const Alignment(0, 1),
             child: Container(
               color: Colors.transparent,
               height: MediaQuery.sizeOf(context).height - 130,
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: books.map((book) {
                     // Use null-aware operators to handle potential null values
