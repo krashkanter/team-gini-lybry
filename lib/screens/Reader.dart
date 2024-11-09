@@ -37,20 +37,34 @@ class _ReaderState extends State<Reader> {
     _word = "Click";
   }
 
+
   void nextPage() {
+
     setState(() {
+
       if (currentIndex + wordsPerPage < words.length) {
+
         currentIndex += wordsPerPage;
+
       }
+
     });
+
   }
 
+
   void previousPage() {
+
     setState(() {
+
       if (currentIndex - wordsPerPage >= 0) {
+
         currentIndex -= wordsPerPage;
+
       }
+
     });
+
   }
 
   @override
@@ -91,7 +105,7 @@ class _ReaderState extends State<Reader> {
                         setState(() {
                           _word = word;
                           _definition = wordDetails[0]['definition']!;
-                          _transcription = wordDetails[0]['phonetic']!;
+                          _transcription = wordDetails[0]['phonetic']!.toLowerCase();
                           _audio = wordDetails[0]['audio']!;
                         });
                       } else {
@@ -183,9 +197,7 @@ class _ReaderState extends State<Reader> {
           child: Align(
             alignment: Alignment(-1, 1),
             child: GestureDetector(
-              onTap: currentIndex + wordsPerPage < words.length
-                  ? previousPage
-                  : null,
+              onTap:previousPage,
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: toColor("333A3F"), width: 5),

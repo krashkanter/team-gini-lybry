@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:sahyadri_hacknight/main.dart';
 import 'package:sahyadri_hacknight/screens/Reader.dart';
 import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
@@ -135,11 +136,11 @@ Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
       }
 
       // Store the results
-
+      print(phoneticTranscription);
       wordDetails.add({
-        'definition': definition,
+        'definition': await askGemini("help a dyslexic person understand the meaning of this word, the words should be vey simple, answer in 1 line: $wordDefinition")??"",
 
-        'phonetic': phoneticTranscription,
+        'phonetic': await askGemini("help a dyslexic person pronounce this word, answer in one word: $word")??"",
 
         'audio': audioLinks.isNotEmpty
             ? audioLinks[0]

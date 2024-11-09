@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sahyadri_hacknight/screens/Reader.dart';
-
+import '../main.dart';
 import '../reusable.dart';
 
 class Ask extends StatefulWidget {
@@ -21,12 +21,21 @@ class _AskState extends State<Ask> {
         width: 70.0, // Set your desired width
         height: 70.0, // Set your desired height
         child: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
+            // Get the summarized text from Gemini
+            String? summarizedText = await askGemini("Summerize this in very simple Language, dont change the actual text too much just simlify to complex words: ${_text.text}");
+            print(summarizedText);
+
+            // Navigate to Reader page with the summarized text
             Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Reader(title: "Custom Message", data: _text.text)));
+              context,
+              MaterialPageRoute(
+                builder: (context) => Reader(
+                  title: "Summarized Message",
+                  data: summarizedText ?? "Error summarizing text.", // Handle null case
+                ),
+              ),
+            );
           },
           shape: const CircleBorder(),
           backgroundColor: toColor("56C0A1"),
