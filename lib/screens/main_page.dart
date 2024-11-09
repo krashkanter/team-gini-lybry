@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sahyadri_hacknight/reusable.dart';
-import 'package:sahyadri_hacknight/screens/Library.dart';
+import 'package:lybry/reusable.dart';
+import 'package:lybry/screens/library.dart';
 
 class Mainpage extends StatefulWidget {
   const Mainpage({super.key});
@@ -20,7 +19,7 @@ class _MainpageState extends State<Mainpage> {
           Align(
               alignment: const Alignment(0, -0.6),
               child: logoWidget("assets/LyBry-Transparent.png", 300, 300)),
-          Container(
+          SizedBox(
             width: MediaQuery.sizeOf(context).width,
             child: Align(
                 alignment: const Alignment(0, -0.05),
@@ -30,7 +29,7 @@ class _MainpageState extends State<Mainpage> {
                       fontSize: 40, fontWeight: FontWeight.w900, color: textC),
                 )),
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.sizeOf(context).width,
             child: Align(
                 alignment: const Alignment(0, 0.05),
@@ -41,7 +40,7 @@ class _MainpageState extends State<Mainpage> {
                 )),
           ),
           Align(
-            alignment: Alignment(0, 0.7),
+            alignment: const Alignment(0, 0.7),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(context,

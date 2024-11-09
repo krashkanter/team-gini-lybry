@@ -22,8 +22,8 @@ Adjust text spacing, line spacing, and font size to enhance readability and mini
 
 # Technology Stack ??
 Flutter: Cross-platform framework for beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.
-Text-to-Speech API: Provides the read-aloud functionality.
-Local Database (SQLite/Firestore): Manages the library and reading preferences.
+Text-to-Speech API (dictionaryapi): For dictionary features and pronunciation.
+Cloud Database (Firestore): Manages the library data.
 
 ## Contributing ??
 We welcome contributions! Please fork this repository and submit a pull request with your improvements or bug fixes.

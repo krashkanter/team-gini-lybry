@@ -2,16 +2,17 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sahyadri_hacknight/main.dart';
-import 'package:sahyadri_hacknight/screens/Reader.dart';
+import 'package:lybry/main.dart';
+import 'package:lybry/screens/reader.dart';
 import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
 
 toColor(String hexColor) {
   hexColor = hexColor.toUpperCase().replaceAll("#", "");
   if (hexColor.length == 6) {
-    hexColor = "ff" + hexColor;
+    hexColor = "ff$hexColor";
   }
   return Color(int.parse(hexColor, radix: 16));
 }
@@ -36,39 +37,38 @@ Widget Book(BuildContext context, String link, String title, String data) {
           MaterialPageRoute(
               builder: (context) => Reader(title: title, data: data)));
     },
-    child: Container(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(link), // Correct usage
-                  fit: BoxFit.cover,
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(link), // Correct usage
+                fit: BoxFit.cover,
+              ),
+              border: Border.all(color: toColor("333A3F"), width: 5),
+              color: toColor("56C0A1"),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          Align(
+            alignment: const Alignment(-0.9, 0),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 28, fontWeight: FontWeight.w900),
                 ),
-                border: Border.all(color: toColor("333A3F"), width: 5),
-                color: toColor("56C0A1"),
-                borderRadius: BorderRadius.circular(20),
               ),
             ),
-            Align(
-              alignment: Alignment(-0.9, 0),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Text(
-                    title,
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     ),
   );
@@ -87,9 +87,13 @@ Future<void> getDataFromFirestore(String collectionName) async {
       return {'id': doc.id, ...doc.data() as Map<String, dynamic>};
     }).toList();
 
-    print("Fetched data: $data");
+    if (kDebugMode) {
+      print("Fetched data: $data");
+    }
   } catch (e) {
-    print("Error getting documents: $e");
+    if (kDebugMode) {
+      print("Error getting documents: $e");
+    }
   }
 }
 
@@ -125,22 +129,20 @@ Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
           .where((audio) => audio.isNotEmpty)
           .toList();
 
-      // Extract definitions
-
-      List<dynamic> meanings = wordDefinition[0]['meanings'];
-
-      String definition = '';
-
-      if (meanings.isNotEmpty) {
-        definition = meanings[0]['definitions'][0]['definition'] ?? '';
-      }
 
       // Store the results
-      print(phoneticTranscription);
-      wordDetails.add({
-        'definition': await askGemini("help a dyslexic person understand the meaning of this word, the words should be vey simple, answer in 1 line: $wordDefinition")??"",
+      if (kDebugMode) {
+        print(phoneticTranscription);
+      }
 
-        'phonetic': await askGemini("help a dyslexic person pronounce this word, answer in one word: $word")??"",
+      wordDetails.add({
+        'definition': await askGemini(
+                "help a dyslexic person understand the meaning of this word, the words should be vey simple, answer in 1 line: $wordDefinition") ??
+            "",
+
+        'phonetic': await askGemini(
+                "help a dyslexic person pronounce this word, answer in one word: $word") ??
+            "",
 
         'audio': audioLinks.isNotEmpty
             ? audioLinks[0]
@@ -152,7 +154,9 @@ Future<List<Map<String, String>>> fetchWordDefinition(String word) async {
       throw Exception('Failed to load definition');
     }
   } catch (e) {
-    print('Error: $e');
+    if (kDebugMode) {
+      print('Error: $e');
+    }
 
     return []; // Return an empty list on error
   }

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,34 +37,20 @@ class _ReaderState extends State<Reader> {
     _word = "Click";
   }
 
-
   void nextPage() {
-
     setState(() {
-
       if (currentIndex + wordsPerPage < words.length) {
-
         currentIndex += wordsPerPage;
-
       }
-
     });
-
   }
 
-
   void previousPage() {
-
     setState(() {
-
       if (currentIndex - wordsPerPage >= 0) {
-
         currentIndex -= wordsPerPage;
-
       }
-
     });
-
   }
 
   @override
@@ -78,19 +64,19 @@ class _ReaderState extends State<Reader> {
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
+          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
         ),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           size: 30,
         ),
         toolbarHeight: 100,
         backgroundColor: bgC,
       ),
       body: Stack(children: [
-        Container(
+        SizedBox(
           height: MediaQuery.sizeOf(context).height - 320,
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 Padding(
@@ -105,11 +91,14 @@ class _ReaderState extends State<Reader> {
                         setState(() {
                           _word = word;
                           _definition = wordDetails[0]['definition']!;
-                          _transcription = wordDetails[0]['phonetic']!.toLowerCase();
+                          _transcription =
+                              wordDetails[0]['phonetic']!.toLowerCase();
                           _audio = wordDetails[0]['audio']!;
                         });
                       } else {
-                        print('No details found.');
+                        if (kDebugMode) {
+                          print('No details found.');
+                        }
                       }
                     },
                     textSize: _sliderValue,
@@ -121,59 +110,57 @@ class _ReaderState extends State<Reader> {
                     child: Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0xFF333A3F), width: 5),
+                          border: Border.all(
+                              color: const Color(0xFF333A3F), width: 5),
                           color: bgC, // Replace with your bgC variable
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 100,
-                                    child: Text(
-                                      removeSpecialCharacters(_word),
-                                      style: TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.w900,
-                                          color: textC),
-                                    )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 100,
-                                    child: Text(
-                                      _transcription,
-                                      style: GoogleFonts.notoSans(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                          color: textC),
-                                    )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 100,
-                                    child: Text(
-                                      _definition,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                          color: textC),
-                                    )),
-                              ),
-                            ],
-                          ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                              child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width - 100,
+                                  child: Text(
+                                    removeSpecialCharacters(_word),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w900,
+                                        color: textC),
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width - 100,
+                                  child: Text(
+                                    _transcription,
+                                    style: GoogleFonts.notoSans(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: textC),
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width - 100,
+                                  child: Text(
+                                    _definition,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: textC),
+                                  )),
+                            ),
+                          ],
                         )),
                   ),
                   Align(
-                    alignment: Alignment(1, 0),
+                    alignment: const Alignment(1, 0),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 32, 40, 0),
                       child: IconButton(
@@ -195,9 +182,9 @@ class _ReaderState extends State<Reader> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
           child: Align(
-            alignment: Alignment(-1, 1),
+            alignment: const Alignment(-1, 1),
             child: GestureDetector(
-              onTap:previousPage,
+              onTap: previousPage,
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: toColor("333A3F"), width: 5),
@@ -217,7 +204,7 @@ class _ReaderState extends State<Reader> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
           child: Align(
-            alignment: Alignment(1, 1),
+            alignment: const Alignment(1, 1),
             child: GestureDetector(
               onTap:
                   currentIndex + wordsPerPage < words.length ? nextPage : null,
@@ -240,23 +227,23 @@ class _ReaderState extends State<Reader> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
           child: Align(
-            alignment: Alignment(0, 1),
+            alignment: const Alignment(0, 1),
             child: Container(
               decoration: BoxDecoration(
                   border: Border.all(color: toColor("333A3F"), width: 5),
                   color: toColor("56C0A1"),
                   borderRadius: BorderRadius.circular(1000)),
               child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "${((currentIndex - 1) / 20).ceil() + 1}",
-                    style: TextStyle(fontSize: 28),
+                    style: const TextStyle(fontSize: 28),
                   )),
             ),
           ),
         ),
         Align(
-          alignment: Alignment(0, 1),
+          alignment: const Alignment(0, 1),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
             child: Container(
@@ -295,8 +282,9 @@ class StoryContainer extends StatelessWidget {
   final ValueChanged<String> onWordTap;
   final double textSize; // Add this line
 
-  StoryContainer(
-      {required this.words,
+  const StoryContainer(
+      {super.key,
+      required this.words,
       required this.onWordTap,
       required this.textSize}); // Update constructor
 
@@ -305,7 +293,7 @@ class StoryContainer extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF333A3F), width: 5),
+        border: Border.all(color: const Color(0xFF333A3F), width: 5),
         color: bgC, // Replace with your bgC variable
         borderRadius: BorderRadius.circular(20),
       ),
